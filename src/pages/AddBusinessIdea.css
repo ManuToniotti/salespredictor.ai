@@ -1,0 +1,27 @@
+/* src/pages/AddBusinessIdea.css */
+
+.add-business-idea-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f0f2f5;
+  }
+  
+  .add-business-idea-card {
+    width: 100%;
+    max-width: 600px;
+    padding: 40px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #fff;
+    text-align: center;
+  }
+  
+  .add-business-idea-card .ant-typography-title {
+    margin-bottom: 20px;
+  }
+  
+  .add-business-idea-card .ant-typography-paragraph {
+    margin-bottom: 30px;
+  }

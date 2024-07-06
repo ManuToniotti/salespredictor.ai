@@ -1,0 +1,29 @@
+/* src/App.css */
+.app-header {
+  background: #F3F3F3;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  box-shadow: 0 2px 8px #f0f1f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1890ff;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 40px;
+  margin-right: 10px;
+}

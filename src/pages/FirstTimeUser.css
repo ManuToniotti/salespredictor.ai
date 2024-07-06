@@ -1,0 +1,53 @@
+/* src/pages/FirstTimeUser.css */
+.first-time-user-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #F3F3F3;
+    padding: 40px;
+  }
+  
+  .first-time-user-card {
+    width: 100%;
+    max-width: 600px;
+    padding: 40px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #fff;
+    text-align: center;
+  }
+  
+  .first-time-user-card .ant-typography-title {
+    margin-bottom: 20px;
+  }
+  
+  .first-time-user-card .ant-typography-paragraph {
+    margin-bottom: 20px;
+  }
+  
+  .first-time-user-card .step {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  .first-time-user-card .step-icon {
+    font-size: 24px;
+    color: #1890ff;
+    margin-right: 10px;
+  }
+  
+  .first-time-user-card .step-text {
+    text-align: left;
+  }
+  
+  .first-time-user-card button {
+    background-color: #1890ff;
+    border-color: #1890ff;
+  }
+  
+  .first-time-user-card button:hover {
+    background-color: #40a9ff;
+    border-color: #40a9ff;
+  }
