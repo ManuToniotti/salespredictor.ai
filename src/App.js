@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import FirstTimeUser from './pages/FirstTimeUser';
 import Dashboard from './pages/Dashboard';
 import AddBusinessIdea from './pages/AddBusinessIdea';
-import logo from './assets/SP-logo-short.png';  // Import the logo
+import BusinessIdeaSummary from './pages/BusinessIdeaSummary';
+import logo from './assets/SP-logo-short.png';
 import './App.css';
 
 const { Header, Content, Footer } = Layout;
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/" element={<FirstTimeUser />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/add-business-idea" element={<AddBusinessIdea />} />
+            <Route path="/business-idea-summary" element={<BusinessIdeaSummary />} />
           </Routes>
         </Content>
         <Footer style={{ textAlign: 'center' }}>SalesPredictor.AI ©2024 Created by YourName</Footer>

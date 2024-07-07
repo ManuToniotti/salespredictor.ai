@@ -1,7 +1,8 @@
 // src/pages/AddBusinessIdea.js
 import React from 'react';
 import { Form, Input, Button, Select, DatePicker, InputNumber, Card, Typography, Layout } from 'antd';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import './AddBusinessIdea.css';
 
@@ -10,23 +11,20 @@ const { Option } = Select;
 
 const AddBusinessIdea = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { state } = location;
 
-  const initialValues = state ? {
-    ...state,
-    startDate: state.startDate ? dayjs(state.startDate) : null,
-    investment: state.investment ? parseFloat(state.investment.replace(/,/g, '')) : null,
-  } : {};
+  const onFinish = async (values) => {
+    try {
+      const formattedValues = {
+        ...values,
+        estimatedStartDate: values.estimatedStartDate ? dayjs(values.estimatedStartDate).format('YYYY-MM-DD') : null,
+      };
+      console.log('Received values of form:', formattedValues);
 
-  const onFinish = (values) => {
-    const formattedValues = {
-      ...values,
-      startDate: values.startDate ? dayjs(values.startDate).format('YYYY-MM-DD') : null,
-      investment: values.investment.toString(),
-    };
-    console.log('Received values of form:', formattedValues);
-    navigate('/business-idea-summary', { state: formattedValues });
+      const response = await axios.post('http://localhost:5001/api/business/add', formattedValues);
+      navigate('/business-idea-summary', { state: { businessId: response.data._id } });
+    } catch (error) {
+      console.error('Error adding business:', error);
+    }
   };
 
   return (
@@ -39,11 +37,10 @@ const AddBusinessIdea = () => {
         <Form
           name="add_business_idea"
           layout="vertical"
-          initialValues={initialValues}
           onFinish={onFinish}
         >
           <Form.Item
-            name="businessName"
+            name="name"
             label="Business Name"
             rules={[{ required: true, message: 'Please enter the business name' }]}
           >
@@ -64,7 +61,7 @@ const AddBusinessIdea = () => {
             </Select>
           </Form.Item>
           <Form.Item
-            name="productService"
+            name="productType"
             label="Product/Service Type"
             rules={[{ required: true, message: 'Please enter the product/service type' }]}
           >
@@ -85,14 +82,14 @@ const AddBusinessIdea = () => {
             <Input />
           </Form.Item>
           <Form.Item
-            name="startDate"
+            name="estimatedStartDate"
             label="Estimated Start Date"
             rules={[{ required: true, message: 'Please select the start date' }]}
           >
             <DatePicker style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item
-            name="investment"
+            name="initialInvestment"
             label="Initial Investment"
             rules={[{ required: true, message: 'Please enter the initial investment' }]}
           >

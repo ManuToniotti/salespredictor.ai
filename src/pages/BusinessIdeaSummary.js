@@ -1,7 +1,8 @@
 // src/pages/BusinessIdeaSummary.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Card, Button, Typography, Layout, Space, Row, Col } from 'antd';
+import axios from 'axios';
 import './BusinessIdeaSummary.css';
 
 const { Title, Paragraph } = Typography;
@@ -10,10 +11,26 @@ const BusinessIdeaSummary = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { state } = location;
+  const [businessDetails, setBusinessDetails] = useState(null);
 
-  const handleProceed = (path) => {
-    navigate(path, { state });
-  };
+  useEffect(() => {
+    const fetchBusinessDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/api/business/${state.businessId}`);
+        setBusinessDetails(response.data);
+      } catch (error) {
+        console.error('Error fetching business details:', error);
+      }
+    };
+
+    if (state && state.businessId) {
+      fetchBusinessDetails();
+    }
+  }, [state]);
+
+  if (!businessDetails) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Layout.Content className="business-idea-summary-content">
@@ -22,17 +39,17 @@ const BusinessIdeaSummary = () => {
         <Paragraph>Review the details of your business idea and proceed with the analysis.</Paragraph>
         <Space direction="vertical" size="middle" style={{ width: '100%' }}>
           <Row>
-            <Col span={24}><Paragraph><strong>Business Name:</strong> {state.businessName}</Paragraph></Col>
-            <Col span={24}><Paragraph><strong>Industry:</strong> {state.industry}</Paragraph></Col>
-            <Col span={24}><Paragraph><strong>Product/Service Type:</strong> {state.productService}</Paragraph></Col>
-            <Col span={24}><Paragraph><strong>Target Market:</strong> {state.targetMarket}</Paragraph></Col>
-            <Col span={24}><Paragraph><strong>Location:</strong> {state.location}</Paragraph></Col>
-            <Col span={24}><Paragraph><strong>Estimated Start Date:</strong> {state.startDate}</Paragraph></Col>
-            <Col span={24}><Paragraph><strong>Initial Investment:</strong> ${state.investment}</Paragraph></Col>
+            <Col span={24}><Paragraph><strong>Business Name:</strong> {businessDetails.name}</Paragraph></Col>
+            <Col span={24}><Paragraph><strong>Industry:</strong> {businessDetails.industry}</Paragraph></Col>
+            <Col span={24}><Paragraph><strong>Product/Service Type:</strong> {businessDetails.productType}</Paragraph></Col>
+            <Col span={24}><Paragraph><strong>Target Market:</strong> {businessDetails.targetMarket}</Paragraph></Col>
+            <Col span={24}><Paragraph><strong>Location:</strong> {businessDetails.location}</Paragraph></Col>
+            <Col span={24}><Paragraph><strong>Estimated Start Date:</strong> {businessDetails.estimatedStartDate}</Paragraph></Col>
+            <Col span={24}><Paragraph><strong>Initial Investment:</strong> ${businessDetails.initialInvestment}</Paragraph></Col>
           </Row>
           <Space direction="horizontal" size="middle">
-            <Button type="primary" onClick={() => handleProceed('/dashboard')}>Proceed to Dashboard</Button>
-            <Button onClick={() => navigate('/add-business-idea', { state })}>Edit Business Idea</Button>
+            <Button type="primary" onClick={() => navigate('/dashboard', { state: { businessId: businessDetails._id } })}>Proceed to Dashboard</Button>
+            <Button onClick={() => navigate('/add-business-idea', { state: businessDetails })}>Edit Business Idea</Button>
           </Space>
         </Space>
       </Card>
